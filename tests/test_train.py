@@ -8,7 +8,7 @@ from utils import (
 from sklearn.linear_model import LogisticRegression
 
 def test_config_parsing():
-    cfg = load_configuration('../config/config.json')
+    cfg = load_configuration('config/config.json')
     assert all(param in cfg for param in ['C', 'solver', 'max_iter'])
     assert cfg['C'] > 0 and cfg['max_iter'] > 0
     assert isinstance(cfg['solver'], str)
@@ -21,7 +21,7 @@ def test_data_loading():
 
 def test_model_training_and_params():
     X, y = get_digit_data()
-    cfg = load_configuration('../config/config.json')
+    cfg = load_configuration('config/config.json')
     model = initialize_and_train(X, y, cfg)
     assert isinstance(model, LogisticRegression)
     assert hasattr(model, 'coef_') and hasattr(model, 'classes_')
@@ -30,14 +30,14 @@ def test_model_training_and_params():
 
 def test_metrics():
     X, y = get_digit_data()
-    cfg = load_configuration('../config/config.json')
+    cfg = load_configuration('config/config.json')
     model = initialize_and_train(X, y, cfg)
     accuracy, f1 = compute_metrics(model, X, y)
     assert accuracy > 0.85 and f1 > 0.85
 
 def test_model_serialization_cycle(tmp_path):
     X, y = get_digit_data()
-    cfg = load_configuration('../config/config.json')
+    cfg = load_configuration('config/config.json')
     model = initialize_and_train(X, y, cfg)
     target = tmp_path / "test_model.pkl"
     serialize_model(model, target)
